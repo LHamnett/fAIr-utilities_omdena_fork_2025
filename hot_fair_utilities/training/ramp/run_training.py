@@ -32,7 +32,6 @@ class RaiseError(Exception):
         self.message = message
 
 
-# Third party imports
 
 # Third party imports
 import segmentation_models as sm
@@ -69,7 +68,22 @@ def apply_feedback(
     batch_size,
     freeze_layers,
     multimasks=False,
-):
+):  
+    """
+    Applies feedback by fine-tuning a pre-trained model with the given configuration.
+
+    Parameters:
+    pretrained_model_path (str): Path to the pre-trained model.
+    output_path (str): Directory where the output will be saved.
+    num_epochs (int): Number of epochs for training.
+    batch_size (int): Size of the batches for training.
+    freeze_layers (int): Number of layers to freeze during fine-tuning.
+    multimasks (bool, optional): Whether to use multimasks during training. Defaults to False.
+
+    Returns:
+    None
+    """
+
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
@@ -86,9 +100,23 @@ def apply_feedback(
 
 
 def manage_fine_tuning_config(
+    
     output_path, num_epochs, batch_size, freeze_layers, multimasks=False
 ):
+    """
+    Manages and updates the fine-tuning configuration for a RAMP model.
 
+    Args:
+        output_path (str): The base directory where the configuration and related files will be saved.
+        num_epochs (int): The number of epochs for training.
+        batch_size (int): The batch size for training.
+        freeze_layers (int): The number of layers to freeze during fine-tuning.
+        multimasks (bool, optional): Flag indicating whether to use multimasks or binary masks. Defaults to False.
+
+    Returns:
+        dict: The updated configuration dictionary.
+    """
+    
     dst_path = os.path.join(output_path, "ramp_fair_config_finetune.json")
 
     data = RAMP_CONFIG

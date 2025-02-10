@@ -64,7 +64,11 @@ def train(
             output_path, epoch_size, batch_size, freeze_layers, multimasks
         )
         print("Data is ready for training")
+
+        #run training
         run_main_train_code(cfg)
+
+        #get metrics
         print("extracting highest accuracy model")
         final_accuracy, final_model_path = extract_highest_accuracy_model(output_path)
         return (final_accuracy, final_model_path)
@@ -79,7 +83,24 @@ def run_feedback(
     batch_size: int,
     freeze_layers: bool = True,
     multimasks: bool = False,
-):
+):  
+    """
+    Run the feedback training process.
+
+    Parameters:
+    input_path: Path of the directory output by preprocess
+    output_path: Path of the working dir for training
+    feedback_base_model (str): Path to the base model for feedback.
+    model_home (str): Directory where the model is stored.
+    epoch_size (int): Number of epochs for training.
+    batch_size (int): Size of each training batch.
+    freeze_layers (bool, optional): Whether to freeze layers during training. Default is True.
+    multimasks (bool, optional): Whether to use multiple masks. Default is False.
+
+    Returns:
+    tuple: A tuple containing the final accuracy and the path to the final model.
+    """
+
     assert os.path.exists(input_path), "Input Feedback Path Doesn't Exist"
     assert os.path.exists(feedback_base_model), "Feedback base Model Doesn't Exist"
     os.environ.update(os.environ)
@@ -98,3 +119,15 @@ def run_feedback(
     )
     final_accuracy, final_model_path = extract_highest_accuracy_model(output_path)
     return (final_accuracy, final_model_path)
+
+if __name__ == '__main__':
+    acc_out, model_out = run_feedback(
+    input_path=,
+    output_path=,
+    feedback_base_model=,
+    model_home=,
+    epoch_size=2,
+    batch_size =2,
+    freeze_layers True,
+    multimasks = False
+):
